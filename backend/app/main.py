@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.routers import repositories, commits, contributors
+from app.ai import router as ai_router
 
 # Initialize DB tables
 Base.metadata.create_all(bind=engine)
@@ -26,6 +27,7 @@ app.add_middleware(
 app.include_router(repositories.router, prefix="/api")
 app.include_router(commits.router, prefix="/api")
 app.include_router(contributors.router, prefix="/api")
+app.include_router(ai_router.router, prefix="/api")
 
 @app.get("/")
 def read_root():

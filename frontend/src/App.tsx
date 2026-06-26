@@ -8,12 +8,19 @@ import { PlaybackControlPanel } from './components/timeline/PlaybackControlPanel
 import { AnalyticsDashboard } from './components/dashboard/AnalyticsDashboard';
 import { ComplexityDashboard } from './components/dashboard/ComplexityDashboard';
 import { AIInsightsDashboard } from './components/dashboard/AIInsightsDashboard';
+import { AIRepositoryChat } from './components/dashboard/AIRepositoryChat';
 import { useVisualizerStore } from './state/store';
 import { GitCompare, Loader2 } from 'lucide-react';
 
 function App() {
   const { activeRepoId, currentTree, isLoading } = useVisualizerStore();
-  const [activeTab, setActiveTab] = useState<'timelapse' | 'analytics' | 'complexity' | 'ai-insights'>('timelapse');
+  const [activeTab, setActiveTab] = useState<
+    'timelapse' |
+    'analytics' |
+    'complexity' |
+    'ai-insights' |
+    'ai-chat'
+  >('timelapse');
 
   return (
     <div className="min-h-screen flex flex-col bg-darkBg text-slate-100 font-sans">
@@ -42,44 +49,51 @@ function App() {
                 <div className="flex items-center gap-1 bg-slate-900 border border-darkBorder rounded-xl p-1 shadow-inner">
                   <button
                     onClick={() => setActiveTab('timelapse')}
-                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                      activeTab === 'timelapse'
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'timelapse'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                      }`}
                   >
                     Time-Lapse Tree View
                   </button>
                   <button
                     onClick={() => setActiveTab('analytics')}
-                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                      activeTab === 'analytics'
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'analytics'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                      }`}
                   >
                     Analytics Dashboard
                   </button>
                   <button
                     onClick={() => setActiveTab('complexity')}
-                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                      activeTab === 'complexity'
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'complexity'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                      }`}
                   >
                     Complexity Dashboard
                   </button>
                   <button
                     onClick={() => setActiveTab('ai-insights')}
-                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                      activeTab === 'ai-insights'
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'ai-insights'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                      }`}
                   >
                     AI Insights
                   </button>
+
+                  <button
+                    onClick={() => setActiveTab('ai-chat')}
+                    className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${activeTab === 'ai-chat'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                  >
+                    AI Repository Chat
+                  </button>
+
                 </div>
               </div>
 
@@ -119,6 +133,18 @@ function App() {
                     <AIInsightsDashboard />
                   </div>
                   {/* Bottom Playback HUD */}
+                  <div className="flex-shrink-0">
+                    <PlaybackControlPanel />
+                  </div>
+                </>
+              )}
+
+              {activeTab === 'ai-chat' && (
+                <>
+                  <div className="flex-grow overflow-hidden">
+                    <AIRepositoryChat />
+                  </div>
+
                   <div className="flex-shrink-0">
                     <PlaybackControlPanel />
                   </div>
